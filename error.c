@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   meal.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 18:35:22 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/13 21:17:27 by vgejno           ###   ########.fr       */
+/*   Created: 2023/02/13 18:35:45 by vgejno            #+#    #+#             */
+/*   Updated: 2023/02/13 20:38:56 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include "philo.h"
 
-void	*routine(void *)
+int	ft_error(char *str)
 {
-	t_philo	the_philo;
-	
-	pthread_mutex_init(&the_philo.l_fork, NULL);
-	pthread_mutex_init(&the_philo.r_fork, NULL);
-	
-	pthread_mutex_lock(&the_philo.l_fork);
-	pthread_mutex_unlock(&the_philo.l_fork);
+	int	len;
 
-	pthread_mutex_lock(&the_philo.r_fork);
-	pthread_mutex_unlock(&the_philo.r_fork);
-	
-	pthread_mutex_destroy(&the_philo.l_fork);
-	pthread_mutex_destroy(&the_philo.r_fork);
+	len = 0;
+	while (*(str + len))
+		len++;
+	write(2, str, len);
+	write(2, "\n", 1);
+	return (-1);
 }
