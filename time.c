@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:00:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/14 18:27:19 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/17 19:56:28 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,23 @@ using gettimeoftheday() get actual time*/
 long int	ft_get_actual_time(void)
 {
 	long int	time;
-	struct timeval	tm;
+	struct timeval	tm_now;
 		
-	gettimeofday(&tm, NULL);
-	time = tm.tv_sec * 1000 + tm.tv_usec / 1000;
+	gettimeofday(&tm_now, NULL);
+	time = tm_now.tv_sec * 1000 + tm_now.tv_usec / 1000;
 	printf("actual time since 01.01.1970 in ms: %ldms\n", time);
+	return (time);
+}
+
+int	ft_tm_passed(struct timeval *tm_launch)
+{
+	unsigned int	tm_passed;
+	struct timeval	tm_now;
+		
+	gettimeofday(&tm_now, NULL);
+	tm_passed = (unsigned int)(((tm_now.tv_sec - tm_launch->tv_sec) * 1000) + 
+		((tm_now.tv_usec - tm_launch->tv_usec) / 1000));
+	printf("time passed since launch of simulation in ms: %ldms\n", time);
 	return (time);
 }
 
@@ -75,4 +87,9 @@ void	my_usleep_ms(long int millisecond)
 long int	ft_time_passed(long int start, long int end)
 {
 	return (end - start);
+}
+
+void	ft_time_start(struct timeval *tm)
+{
+	gettimeofday(&tm, NULL);
 }

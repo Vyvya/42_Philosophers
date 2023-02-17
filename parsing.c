@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:34:13 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/16 17:53:32 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/17 19:58:59 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,9 @@
 // 	pthread_t	the_philo[data->num_philos];
 // }
 
-int	ft_philo_atoi(char *str)
-{
-	int	res;
-	int	sign;
 
-	res = 0;
-	sign = 1;
 
-	if (*str == '-')
-		return (ft_error("Error argument is negatif"));
-	while (*str)
-	{
-		if (*str >= '0' && *str <= '9')
-			res = res * 10 + *str - '0';
-		else
-			return (ft_error("Error argument not number"));
-		str++;
-	}
-	if (res > INT_MAX || res <= INT_MIN)
-		return (ft_error("Error argument is negatif"));
-	return (res);
-}
-
-int	ft_check_parse(t_data *data, char **argv)
+int	ft_parse_init(t_data *data, char **argv)
 {
 	long int	time;
 
@@ -64,8 +43,10 @@ int	ft_check_parse(t_data *data, char **argv)
 	if (data->num_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0)
 		return (-1);
-	// else
-	// 	data->times = ft_init_times();	
-	ft_get_actual_time();
+	data->msg_print = create_mutex();
+	data->msg_died = create_mutex();
+	if (data->msg_print == 0 || data->msg_died == 0)
+		return (2);
+	data->died = 0;		
 	return (0);
 }
