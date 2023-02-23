@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:00:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/17 19:56:28 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/20 20:26:00 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_tm_passed(struct timeval *tm_launch)
 	tm_passed = (unsigned int)(((tm_now.tv_sec - tm_launch->tv_sec) * 1000) + 
 		((tm_now.tv_usec - tm_launch->tv_usec) / 1000));
 	printf("time passed since launch of simulation in ms: %ldms\n", time);
-	return (time);
+	return ((int)time);
 }
 
 void	my_usleep_ms(long int millisecond)
@@ -81,7 +81,7 @@ void	my_usleep_ms(long int millisecond)
 	
 	start_tm = ft_get_actual_time();
 	timer_ms = ft_time_passed(start_tm, ft_get_actual_time());
-	printf ("timer_ms: %ldms\n", timer_ms);
+	// printf ("timer_ms: %ldms\n", timer_ms);
 }
 
 long int	ft_time_passed(long int start, long int end)
@@ -89,7 +89,7 @@ long int	ft_time_passed(long int start, long int end)
 	return (end - start);
 }
 
-void	ft_time_start(struct timeval *tm)
+void	ft_time_of_launch(struct timeval *tm)
 {
-	gettimeofday(&tm, NULL);
+	gettimeofday(tm, NULL);
 }

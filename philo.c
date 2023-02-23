@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:32:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/17 19:12:22 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:46:42 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	main(int argc, char *argv[])
 		return (ft_error("Error wrong number of arguments"));
 	if (ft_parse_init(&data, argv))
 		return (ft_error("Error invalid argument"));
-	if (ft_init_data(data, philo))
-		return (ft_error("Error init data"));
-	if (ft_init_philos(data, philo))
+	// if (ft_init_data(data, philo))
+	// 	return (ft_error("Error init data"));
+	if (ft_init_philos(&data, &philo))
 		return (ft_error("Error init philos"));
-	ft_create_monitor(data, philo);
+	// ft_create_monitor(data, philo);
 	return (0);
 }

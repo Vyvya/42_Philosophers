@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:11:48 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/10 19:48:14 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/23 17:32:52 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ following actions:
 4. fall asleep during the time given, print message
 
 Solution: let the philos to the table with a certain waiting time (that will
-icrease the speed of working algo) + algorithm Dijkstra
+increase the speed of working algo) + algorithm Dijkstra
 Algo not optimal, but with garanty sans deadlock:
 1. if philos are numbered and forks are numbered, each philo takes first a
 fork with the lower number, except one. ex. if num p = 5: 
