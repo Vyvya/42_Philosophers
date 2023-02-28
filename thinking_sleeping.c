@@ -1,46 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   thinking_sleeping.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 16:00:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/28 16:47:18 by vgejno           ###   ########.fr       */
+/*   Created: 2023/02/13 18:35:45 by vgejno            #+#    #+#             */
+/*   Updated: 2023/02/28 16:46:04 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_mysleep(t_philo *philo, long int tm_to_die)
+void	ft_philo_thinking(t_philo *philo)
 {
-	long int	start_tm;
-	long int	tm_now;
+	ft_print_msg(ft_tm_passed(&(philo->data->tm_launch)), philo, MAGENTA "is thinking\n" RESET);
+}
 
+int	ft_philo_sleeping(t_philo *philo)
+{
+	unsigned long int	start_tm;
+	unsigned long int	tm_now;
+
+	// printf(PURPLE "Philo entered into sleeping loop\n");
 	start_tm = ft_tm_passed(&(philo->data->tm_launch));
+	// printf("start_tm: %ldms\n\n", start_tm);
 	tm_now = start_tm;
-	while (tm_now - start_tm < tm_to_die)
+	ft_print_msg(start_tm, philo, LIME "is sleeping\n" RESET);
+	while (tm_now - start_tm < philo->data->tm_to_sleep)
 	{
 		usleep(100);
 		tm_now = ft_tm_passed(&(philo->data->tm_launch));
 		if (ft_check_philo_dead(philo))
-			return ;
+			return (1);
 	}
-}
-
-long int	ft_tm_passed(struct timeval *tm_launch)
-{
-	unsigned long int	tm_passed;
-	struct timeval		tm_now;
-
-	gettimeofday(&tm_now, 0);
-	printf(RESET);
-	tm_passed = (unsigned long int)(((tm_now.tv_sec - tm_launch->tv_sec) * 1000) + 
-		((tm_now.tv_usec - tm_launch->tv_usec) / 1000));
-	return ((long int)tm_passed);
-}
-
-void	ft_tm_of_launch(struct timeval *tm)
-{
-	gettimeofday(tm, 0);
+	return (0);
 }

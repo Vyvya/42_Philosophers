@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:32:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/21 15:46:42 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:39:26 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,38 @@ in milliseconds)
 philosopher’s status.
 
 • You can’t have more than 10 ms between the death of a philosopher and when it
-will print its death.*/
+will print its death.
+
+1. check and parse arguments
+2. init philos/mutexes
+3. init monitoring mutex
+4. start simulation/eat/sleep/think
+5. check for dead/max_meals
+5. destroy threads/free
+*/
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	t_philo	*philo;
+	t_philo	*philos;
 
-	if (argc < 5 || argc > 6)
-		return (ft_error("Error wrong number of arguments"));
-	if (ft_parse_init(&data, argv))
-		return (ft_error("Error invalid argument"));
-	// if (ft_init_data(data, philo))
-	// 	return (ft_error("Error init data"));
-	if (ft_init_philos(&data, &philo))
-		return (ft_error("Error init philos"));
-	// ft_create_monitor(data, philo);
+	philos = 0;
+	if (ft_parse(&data, argv, argc))
+	{
+		ft_error("Error parsing invalid argument\n");
+		return (1);
+	}
+	if (ft_init(&data, &philos))
+	{
+		free(philos);
+		ft_error("Error init philos meassage from main\n");
+		return (2);
+	}
+	if (ft_join_threads(data.n_philos, philos, &data))
+	{
+		free(philos);
+		return (3);
+	}	
+	ft_destroy_free_threads(&data, philos);
 	return (0);
 }

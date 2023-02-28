@@ -6,7 +6,7 @@
 #    By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 18:33:27 by vgejno            #+#    #+#              #
-#    Updated: 2023/02/21 16:04:00 by vgejno           ###   ########.fr        #
+#    Updated: 2023/02/28 13:34:03 by vgejno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,14 @@ PTHLIB =  -lpthread
 RM = rm -f
 
 SRC = philo.c \
-	  parsing.c \
+	  parse.c \
+	  join.c \
 	  error.c \
 	  time.c \
 	  init.c \
 	  simulation.c \
-	  meal.c \
+	  eating.c \
+	  thinking_sleeping.c \
 	  monitoring.c \
 	  print.c \
 	  utils.c

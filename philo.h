@@ -6,7 +6,7 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:34:37 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/23 19:25:59 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/02/28 17:09:30 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,46 @@
 # define S_SLEEP "is sleeping\n"
 # define S_DEAD "died\n"
 
+# define WHITE      "\033[38;2;255;255;255m"
+# define BLACK      "\033[38;2;0;0;0m"
+# define RED        "\033[38;2;255;0;0m"
+# define LIME       "\033[38;2;0;255;0m"
+# define BLUE       "\033[38;2;0;80;255m"
+# define YELLOW     "\033[38;2;255;255;0m"
+# define GCYAN      "\033[38;2;0;164;114m"
+# define MAGENTA    "\033[38;2;255;0;255m"
+# define SILVER     "\033[38;2;192;192;192m"
+# define GRAY       "\033[38;2;128;128;128m"
+# define MAROON     "\033[38;2;128;0;0m"
+# define OLIVE      "\033[38;2;128;128;0m"
+# define GREEN      "\033[38;2;0;128;0m"
+# define PURPLE     "\033[38;2;128;0;128m"
+# define TEAL       "\033[38;2;0;128;128m"
+# define NAVY       "\033[38;2;0;0;128m"
+# define DB         "\033[38;2;0;0;139m"
+# define LC         "\033[38;2;224;255;255m"
+# define MBLUE      "\033[38;2;58;62;92m"
+# define LBLUE      "\033[38;2;114;121;179m"
+# define GGREEN     "\033[38;2;14;195;6m"
+# define ORANGE		"\033[38;5;208m"
+
+# define RESET      "\033[0m"
+
 typedef struct s_data
 {
-	int				num_philos;
-	long int		time_to_die;
-	long int		time_to_eat;
-	long int		time_to_sleep;
-	int				num_forks;
-	int				ntime_must_eat;
+	int				n_philos;
+	long int		tm_to_die;
+	long int		tm_to_eat;
+	long int		tm_to_sleep;
+	int				n_forks;
+	int				n_must_eat;
 	int				philo_dead;
 	pthread_t		monitor_id;
 	pthread_mutex_t	*print_mutex;
-	pthread_mutex_t	*status_died_mutex;
-	struct timeval	tm;
+	pthread_mutex_t	*died_mutex;
+	struct timeval	tm_launch;
 	// long int		curr_tm;
-	// long int		tm_launch;
+	// long int		tm_launch_int;
 	// long int		test_ms;
 }	t_data;
 
@@ -54,7 +79,7 @@ typedef struct s_philo
 	int				philo_index;
 	// int				count;
 	int				max_meals;
-	long int		start_last_meal;
+	long int		tm_last_meal;
 	t_data			*data;
 }	t_philo;
 
@@ -67,27 +92,34 @@ typedef struct s_philo
 // 	int				tm_die;
 // }t_time;
 
-int				ft_error(char *str);
-int				ft_parse_init(t_data *laws, char **argv);
+void			ft_error(char *str);
+int				ft_parse(t_data *laws, char **argv, int argc);
 long int		ft_philo_atoi(char *str);
-int				ft_init_philos(t_data *data, t_philo	**philo);
+int				ft_init(t_data *data, t_philo **philos);
 int				ft_init_monitor(t_data *data, t_philo *philo);
 
-void			ft_time_of_launch(struct timeval *tm);
+void			ft_tm_of_launch(struct timeval *tm);
 long int		ft_get_actual_time(void);
-void			my_usleep_ms(long int millisecond);
-long int		ft_time_passed(long int start, long int end);
+void			ft_mysleep(t_philo *philo, long int tm_to_die);
+long int		ft_tm_passed(struct timeval *tm_launch);
 
-pthread_mutex_t	*create_mutex(void);
+// pthread_mutex_t	*create_mutex(void);
 
-void			*simulation(void *args);
+void			*simu(void *args);
 
 int				ft_philo_eating(t_philo *philo);
+void			ft_philo_thinking(t_philo *philo);
+int				ft_philo_sleeping(t_philo *philo);
+int				ft_check_philo_dead(t_philo *philo);
 
-void			ft_print_msg(long int timestamp, t_philo *philo, char *msg);
+int				ft_join_threads(int n_philos, t_philo *philos, t_data *data);
+void			ft_destroy_free_threads(t_data *data, t_philo *philos);
 
-// void			ft_putstr(char *str);
-// void			ft_putnbr(int num);
+void			ft_print_msg(long int tm_stamp, t_philo *philo, char *msg);
+
+void			ft_putstr_fd(char *str, int fd);
+void			ft_putnbr(int num);
+void	ft_putnbr_fd(int number, int fd);
 // void			ft_putchar(char c);
 
 #endif
