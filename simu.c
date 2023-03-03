@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simulation.c                                       :+:      :+:    :+:   */
+/*   simu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:35:22 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/28 13:39:58 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/03/01 21:10:28 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,40 @@
 
 void	*simu(void *args)
 {
-	t_philo	*philo_at_table;
+	t_philo	*ph;
 	int		i;
 
-	philo_at_table = args;
-	i = philo_at_table->max_meals;
-	// printf("\nsimulation: i from max_meals: %d\n", i);
-	//eternal loop
+	ph = args;
+	i = ph->max_meals;
 	while (1)
 	{
-		if (ft_philo_eating(philo_at_table))
+		if (ft_philo_eating(ph))
 			return (0);
-		// printf(MAGENTA "Philo has eaten\n");
-		// usleep(10000);	
 		if (--i == 0)
 		{
-			pthread_mutex_lock(philo_at_table->philo_status_mutex);
-			philo_at_table->max_meals = 0;
-			pthread_mutex_unlock(philo_at_table->philo_status_mutex);
+			pthread_mutex_lock(ph->ph_status_mutex);
+			ph->max_meals = 0;
+			pthread_mutex_unlock(ph->ph_status_mutex);
 		}
-		if (ft_philo_sleeping(philo_at_table))
+		if (ft_philo_sleeping(ph))
 			return (0);
-		// printf(PURPLE "Philo has slept\n");	
-		ft_philo_thinking(philo_at_table);
-		// printf(PURPLE "Philo has thought\n");	
+		ft_philo_thinking(ph);
+	}
+	return (0);
+}
+
+int	ft_philo_threads(t_data *data, t_philo **philos)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->n_philos)
+	{
+		if (pthread_create(&(((*philos)[i]).ph_id), 0, &simu, &((*philos)[i])))
+		{
+			ft_error ("Error malloc philo\n");
+			return (1);
+		}		
 	}
 	return (0);
 }

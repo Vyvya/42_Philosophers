@@ -6,59 +6,11 @@
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 18:34:27 by vgejno            #+#    #+#             */
-/*   Updated: 2023/02/27 20:56:30 by vgejno           ###   ########.fr       */
+/*   Updated: 2023/03/02 14:37:25 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/*create mutex and returns a poniter to it. crt_mutex() creates a new 
-mutex object and returns a pointer to it. The fill_philo() function is then
-using crt_mutex() twice to create two separate mutex objects: philo->r_fork 
-and philo->philo_auto_check.
-Calling crt_mutex() twice in the fill_philo() function creates two separate 
-mutex objects.*/
-
-void	ft_putnbr_fd(int number, int fd)
-{
-	char	digit;
-
-	if (number >= 10)
-	{
-		ft_putnbr_fd(number / 10, fd);
-		ft_putnbr_fd(number % 10, fd);
-	}
-	else
-	{
-		digit = number + '0';
-		write(fd, &digit, 1);
-	}
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putnbr(int num)
-{
-	char	digit;
-
-	if (num > 9)
-		ft_putnbr(num / 10);
-	ft_putchar(num % 10 + 48);
-}
-
-void	ft_putstr_fd(char *str, int fd)
-{
-	if (str == 0)
-		return ;
-	while (*str)
-		write(fd, str++, 1);
-}
-
-/*int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)
-             Initialize a mutex with specified attributes.*/
 
 long int	ft_philo_atoi(char *str)
 {
@@ -68,29 +20,18 @@ long int	ft_philo_atoi(char *str)
 	res = 0;
 	sign = 1;
 	if (*str == '-')
-	{
-		// return (ft_error("Error argument is negatif"));
-		ft_error("Error argument is negatif\n");
 		return (-1);
-	}
-		
 	while (*str)
 	{
 		if (*str >= '0' && *str <= '9')
 			res = res * 10 + *str - '0';
 		else
-		{
-			// return (ft_error("Error argument not number"));
-			ft_error("Error argument not number\n");
 			return (-1);
-		}
-			
 		str++;
 	}
 	if (res > INT_MAX || res < INT_MIN)
 	{
-		// return (ft_error("Error argument is negatif"));
-		ft_error("Error argument INT_MAX INT_MIN\n");
+		ft_error("Error argument INT_MAX INT_MIN");
 		return (-1);
 	}		
 	return (res);

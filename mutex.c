@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   mutex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vgejno <vgejno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 18:32:30 by vgejno            #+#    #+#             */
-/*   Updated: 2023/03/02 14:32:48 by vgejno           ###   ########.fr       */
+/*   Created: 2023/03/01 12:22:21 by vgejno            #+#    #+#             */
+/*   Updated: 2023/03/01 12:25:09 by vgejno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	main(int argc, char *argv[])
+//create a mutex_ptr
+pthread_mutex_t	*create_mutex(void)
 {
-	t_data	data;
-	t_philo	*philos;
+	pthread_mutex_t	*mutex_ptr;
 
-	philos = 0;
-	if (ft_parse(&data, argv, argc))
+	mutex_ptr = malloc(sizeof(pthread_mutex_t) * 1);
+	if (mutex_ptr == 0)
 	{
-		ft_error("Error parsing invalid argument");
-		return (1);
+		ft_error("Error malloc mutex\n");
+		return (0);
 	}
-	if (ft_init(&data, &philos))
-	{
-		free(philos);
-		ft_error("Error init philos meassage from main");
-		return (2);
-	}
-	if (ft_join_threads(data.n_philos, philos, &data))
-	{
-		free(philos);
-		return (3);
-	}	
-	ft_destroy_free_threads(&data, philos);
-	return (0);
+	pthread_mutex_init(mutex_ptr, 0);
+	return (mutex_ptr);
 }
